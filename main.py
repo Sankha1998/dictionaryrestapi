@@ -42,19 +42,7 @@ def wordSynonyms(url,headers):
     return synonyms
 
 
-def WordSentences(url,headers):
-    response = requests.get(url, headers=headers).text
-    soup = bs(response, 'lxml')
-    data = soup.find_all('div', class_='sentence component')
-    sentences = []
-    c = 0
-    for i in data:
-        if (c < 10):
-            sentences.append(i.text.strip(''))
-            c += 1
-        else:
-            pass
-    return sentences
+
 
 
 
@@ -63,17 +51,14 @@ def data(word):
     headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
     url = 'https://www.yourdictionary.com/{}'.format(word)
     url1 = 'https://thesaurus.yourdictionary.com/{}'.format(word)
-    url2 = 'https://sentence.yourdictionary.com/{}'.format(word)
 
     meanings = wordMeaning(url,headers)
     synonyms = wordSynonyms(url1,headers)
-    sentences = WordSentences(url2,headers)
 
     result = {
         'word': word,
         'meaning':meanings,
         'synonyms':synonyms,
-        'sentences':sentences
     }
     return jsonify(result)
 
